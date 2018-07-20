@@ -15,6 +15,7 @@
                 <value>
                     \yii,
                     \yii\bootstrap4\Alert,
+                    \yii\bootstrap4\ButtonDropdown,
                     \yii\helpers\ArrayHelper,
                     \yii\helpers\Html,
                     \yii\helpers\Url,
