@@ -11,6 +11,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cjtterabytesoft/toolbar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cjtterabytesoft/toolbar/?branch=master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/cjtterabytesoft/toolbar/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![Maintainability](https://api.codeclimate.com/v1/badges/074b60f90f8594dc1bb8/maintainability)](https://codeclimate.com/github/cjtterabytesoft/toolbar/maintainability)
+[![Total Downloads](https://poser.pugx.org/cjtterabytesoft/toolbar/downloads)](https://packagist.org/packages/cjtterabytesoft/toolbar)
 
 
 DIRECTORY STRUCTURE
@@ -75,3 +76,5 @@ composer global require friendsofphp/php-cs-fixer
 ```
 
 **LICENSE:**
+
+[![License](https://poser.pugx.org/cjtterabytesoft/toolbar/license)](https://packagist.org/packages/cjtterabytesoft/toolbar)
