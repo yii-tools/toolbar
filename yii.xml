@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="yii"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        The Basic ruleset yii.
+    </description>
+    <rule ref="rulesets/cleancode.xml">
+        <exclude name="StaticAccess"/>
+    </rule>
+    <rule ref="rulesets/cleancode.xml/StaticAccess">
+        <properties>
+            <property name="exceptions">
+                <value>
+                    \yii,
+                    \yii\bootstrap4\Alert,
+                    \yii\helpers\ArrayHelper,
+                    \yii\helpers\Html,
+                    \yii\helpers\Url,
+                </value>
+            </property>
+        </properties>
+    </rule>
+</ruleset>  
