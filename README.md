@@ -78,4 +78,4 @@ composer global require friendsofphp/php-cs-fixer
 
 **LICENSE:**
 
-[![License](https://poser.pugx.org/cjtterabytesoft/toolbar/license)](https://github.com/cjtterabytesoft/toolbar/blob/master/LICENSE.md)
+[![License](https://poser.pugx.org/cjtterabytesoft/toolbar/license)](https://github.com/cjtterabytesoft/toolbar/blob/master/LICENSE.md) 
