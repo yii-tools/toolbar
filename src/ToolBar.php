@@ -282,8 +282,10 @@ class ToolBar extends Widget
 							Html::endTag($this->_tag_left_panel_button) .
 							Html::begintag($this->_tag_rigth_panel_button, $this->_options_rigth_panel_button) .
 								$this->renderButtonCreate() .
+								$this->renderButtonDelete() .
 								$this->renderButtonFilter() .
 								$this->renderButtonReset() .
+								$this->renderButtonUpdate() .
 							Html::endTag($this->_tag_rigth_panel_button) .
 						Html::endTag($this->_tag_container_panel_button);
 		return $panel_button;
