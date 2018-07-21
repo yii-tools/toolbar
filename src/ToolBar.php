@@ -23,82 +23,82 @@ use yii\helpers\Url;
 class ToolBar extends Widget
 {
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render panel title icon
 	 */
 	public $_tag_icon_panel = 'i';
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the label to use to render panel title icon
 	 */
 	public $_label_icon_panel = '';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render panel title icons
 	 */
 	public $_options_icon_panel = ['class' => 'fas fa-th'];
 
 	/**
-	 * @var string the button label
+	 * @var string the label panel title
 	 */
 	public $_title_panel = '';
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render panel title
 	 */
 	public $_tag_container_panel_header = 'div';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render panel title
 	 */
 	public $_options_container_panel_header = ['class' => 'peers bg-primary text-white align-content-center p-15'];
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render panel title left
 	 */
 	public $_tag_left_panel_header = 'div';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render panel title left
 	 */
 	public $_options_left_panel_header = ['class' => 'float-left'];
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render panel title rigth
 	 */
 	public $_tag_rigth_panel_header = 'div';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render panel title rigth
 	 */
 	public $_options_rigth_panel_header = ['class' => 'float-right ml-auto'];
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render container panel button
 	 */
 	public $_tag_container_panel_button = 'div';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render container panel button
 	 */
 	public $_options_container_panel_button = ['class' => 'peers bd p-15'];
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render panel button left
 	 */
 	public $_tag_left_panel_button = 'div';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render panel button left
 	 */
 	public $_options_left_panel_button = ['class' => 'float-left'];
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string the tag to use to render panel button rigth
 	 */
 	public $_tag_rigth_panel_button = 'div';
 
 	/**
-	 * @var array the tag to use to render the button
+	 * @var array the options to use to render panel button rigth
 	 */
 	public $_options_rigth_panel_button = ['class' => 'float-right ml-auto'];
 
@@ -108,7 +108,7 @@ class ToolBar extends Widget
 	public $_encodeLabel = true;
 
 	/**
-	 * @var string the tag to use to render the button
+	 * @var string use to panel header title
 	 */
 	public $_panel_header_title = '';
 
@@ -123,70 +123,8 @@ class ToolBar extends Widget
 		$iconpanel = $this->renderIcon();
 		$titlepanel = $this->renderTitlePanel();
 		$this->_panel_header_title = $iconpanel . '&nbsp' . '<b>' . $titlepanel . '</b>';
-	  
+
 		echo $this->renderPanelHeader() . $this->renderPanelBar();
-	}
-
-	private function renderIcon()
-	{
-		return Html::tag($this->_tag_icon_panel, $this->_label_icon_panel, $this->_options_icon_panel);
-	}
-
-	private function renderTitlePanel()
-	{
-		if (empty($this->_title_panel)) {
-			$this->_title_panel =  \yii::t('toolbar', 'Gridview ToolBar');
-		}
-
-		return $this->_title_panel;
-	}
-
-	private function renderPanelHeader()
-	{
-		$panel_header = Html::begintag($this->_tag_container_panel_header, $this->_options_container_panel_header) .
-							Html::begintag($this->_tag_left_panel_header, $this->_options_left_panel_header) .
-								$this->_panel_header_title .
-							Html::endTag($this->_tag_left_panel_header) .
-							Html::begintag($this->_tag_rigth_panel_header, $this->_options_rigth_panel_header) .
-								'{summary}' .
-							Html::endTag($this->_tag_rigth_panel_header) .
-						Html::endTag($this->_tag_container_panel_header);
-		return $panel_header;
-	}
-
-	private function renderPanelBar()
-	{
-		$panel_button = Html::begintag($this->_tag_container_panel_button, $this->_options_container_panel_button) .
-							Html::begintag($this->_tag_left_panel_button, $this->_options_left_panel_button) .
-								$this->renderButtonPages() .
-							Html::endTag($this->_tag_left_panel_button) .
-							Html::begintag($this->_tag_rigth_panel_button, $this->_options_rigth_panel_button) .
-								$this->renderButtonCreate() .
-								$this->renderButtonFilter() .
-								$this->renderButtonReset() .
-							Html::endTag($this->_tag_rigth_panel_button) .
-						Html::endTag($this->_tag_container_panel_button);
-		return $panel_button;
-	}
-
-	private function renderButtonPages()
-	{
-		$button_pages = ButtonDropdown::widget([
-							'buttonOptions' => ['class' => 'btn-sm btn-primary ai-c'],
-							'label' => \yii::t('toolbar', 'Page Size'),
-							'options' => ['class' => 'float-right'],
-							'dropdown' => [
-								'items' => [
-									['label' => '1', 'url'  => Url::current(['index', 'page' => 1, 'pageSize' => '1'])],
-									['label' => '5', 'url'  => Url::current(['index', 'page' => 1, 'pageSize' => '5'])],
-									['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '10'])],
-									['label' => '20', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '20'])],
-									['label' => '25', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '25'])],
-									['label' => '50', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '50'])],
-								],
-							],
-						]);
-		return $button_pages;
 	}
 
 	private function renderButtonCreate()
@@ -211,6 +149,26 @@ class ToolBar extends Widget
 		return $button_filter;
 	}
 
+	private function renderButtonPages()
+	{
+		$button_pages = ButtonDropdown::widget([
+							'buttonOptions' => ['class' => 'btn-sm btn-primary ai-c'],
+							'label' => \yii::t('toolbar', 'Page Size'),
+							'options' => ['class' => 'float-right'],
+							'dropdown' => [
+								'items' => [
+									['label' => '1', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '1'])],
+									['label' => '5', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '5'])],
+									['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '10'])],
+									['label' => '20', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '20'])],
+									['label' => '25', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '25'])],
+									['label' => '50', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '50'])],
+								],
+							],
+						]);
+		return $button_pages;
+	}
+
 	private function renderButtonReset()
 	{
 		$button_reset = Html::a(
@@ -220,5 +178,47 @@ class ToolBar extends Widget
 		);
 
 		return $button_reset;
+	}
+
+	private function renderIcon()
+	{
+		return Html::tag($this->_tag_icon_panel, $this->_label_icon_panel, $this->_options_icon_panel);
+	}
+
+	private function renderPanelBar()
+	{
+		$panel_button = Html::begintag($this->_tag_container_panel_button, $this->_options_container_panel_button) .
+							Html::begintag($this->_tag_left_panel_button, $this->_options_left_panel_button) .
+								$this->renderButtonPages() .
+							Html::endTag($this->_tag_left_panel_button) .
+							Html::begintag($this->_tag_rigth_panel_button, $this->_options_rigth_panel_button) .
+								$this->renderButtonCreate() .
+								$this->renderButtonFilter() .
+								$this->renderButtonReset() .
+							Html::endTag($this->_tag_rigth_panel_button) .
+						Html::endTag($this->_tag_container_panel_button);
+		return $panel_button;
+	}
+
+	private function renderPanelHeader()
+	{
+		$panel_header = Html::begintag($this->_tag_container_panel_header, $this->_options_container_panel_header) .
+							Html::begintag($this->_tag_left_panel_header, $this->_options_left_panel_header) .
+								$this->_panel_header_title .
+							Html::endTag($this->_tag_left_panel_header) .
+							Html::begintag($this->_tag_rigth_panel_header, $this->_options_rigth_panel_header) .
+								'{summary}' . ' ' . 'Records per pages: ' . '<b>' . \yii::$app->session->get('pageSize') . '</b>' .
+							Html::endTag($this->_tag_rigth_panel_header) .
+						Html::endTag($this->_tag_container_panel_header);
+		return $panel_header;
+	}
+
+	private function renderTitlePanel()
+	{
+		if (empty($this->_title_panel)) {
+			$this->_title_panel = \yii::t('toolbar', 'Gridview ToolBar');
+		}
+
+		return $this->_title_panel;
 	}
 }
