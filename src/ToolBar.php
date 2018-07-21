@@ -206,7 +206,7 @@ class ToolBar extends Widget
 	{
 		$button_reset = '';
 
-		if ($this->__button_reset) {
+		if ($this->_button_reset) {
 			$button_reset = Html::a(
 				Html::tag('i', '', ['class' => 'fas fa-sync-alt']),
 				['index', [], []],
