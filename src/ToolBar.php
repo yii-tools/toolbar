@@ -111,6 +111,26 @@ class ToolBar extends Widget
 	 * @var string use to panel header title
 	 */
 	public $_panel_header_title = '';
+	
+	/**
+	 * @var boolean show/hidden panel button create
+	 */
+	public $_button_create = true;
+
+	/**
+	 * @var boolean show/hidden panel button filter
+	 */
+	public $_button_filter = true;
+
+	/**
+	 * @var boolean show/hidden panel button pages
+	 */
+	public $_button_pages = true;
+
+	/**
+	 * @var boolean show/hidden panel button reset
+	 */
+	public $_button_reset = true;
 
 	/**
 	 * Initializes the widget.
@@ -129,53 +149,70 @@ class ToolBar extends Widget
 
 	private function renderButtonCreate()
 	{
-		$button_create = Html::a(
-			Html::tag('i', '', ['class' => 'fas fa-plus']),
-			['create'],
-			['class' => 'btn btn-lg bgc-green-500 c-white', 'title' => \yii::t('toolbar', 'Add')]
-		);
+		$button_create = '';
+
+		if ($this->_button_create) {
+			$button_create = Html::a(
+				Html::tag('i', '', ['class' => 'fas fa-plus']),
+				['create'],
+				['class' => 'btn btn-lg bgc-green-500 c-white', 'title' => \yii::t('toolbar', 'Add')]
+			);
+		}
 
 		return $button_create;
 	}
 
 	private function renderButtonFilter()
 	{
-		$button_filter = Html::a(
-			Html::tag('i', '', ['class' => 'fas fa-filter']),
-			Url::current(),
-			['id' => 'filter-checked-btn', 'class' => 'simple btn btn-lg bgc-blue-500 mL-2 c-white', 'title' => \yii::t('toolbar', 'Filter')]
-		);
+		$button_filter = '';
+
+		if ($this->_button_filter) {
+			$button_filter = Html::a(
+				Html::tag('i', '', ['class' => 'fas fa-filter']),
+				Url::current(),
+				['id' => 'filter-checked-btn', 'class' => 'simple btn btn-lg bgc-blue-500 mL-2 c-white', 'title' => \yii::t('toolbar', 'Filter')]
+			);
+		}
 
 		return $button_filter;
 	}
 
 	private function renderButtonPages()
 	{
-		$button_pages = ButtonDropdown::widget([
-							'buttonOptions' => ['class' => 'btn-sm btn-primary ai-c'],
-							'label' => \yii::t('toolbar', 'Page Size'),
-							'options' => ['class' => 'float-right'],
-							'dropdown' => [
-								'items' => [
-									['label' => '1', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '1'])],
-									['label' => '5', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '5'])],
-									['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '10'])],
-									['label' => '20', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '20'])],
-									['label' => '25', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '25'])],
-									['label' => '50', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '50'])],
-								],
-							],
-						]);
+		$button_pages = '';
+
+		if ($this->_button_pages) {
+			$button_pages = ButtonDropdown::widget([
+				'buttonOptions' => ['class' => 'btn-sm btn-primary ai-c'],
+				'label' => \yii::t('toolbar', 'Page Size'),
+				'options' => ['class' => 'float-right'],
+				'dropdown' => [
+					'items' => [
+						['label' => '1', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '1'])],
+						['label' => '5', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '5'])],
+						['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '10'])],
+						['label' => '20', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '20'])],
+						['label' => '25', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '25'])],
+						['label' => '50', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '50'])],
+					],
+				],
+			]);
+		}
+
 		return $button_pages;
 	}
 
 	private function renderButtonReset()
 	{
-		$button_reset = Html::a(
-			Html::tag('i', '', ['class' => 'fas fa-sync-alt']),
-			['index', [], []],
-			['class' => 'btn btn-lg bgc-indigo-500 mL-2 c-white', 'title' => \yii::t('toolbar', 'Reset')]
-		);
+		$button_reset = '';
+
+		if ($this->__button_reset) {
+			$button_reset = Html::a(
+				Html::tag('i', '', ['class' => 'fas fa-sync-alt']),
+				['index', [], []],
+				['class' => 'btn btn-lg bgc-indigo-500 mL-2 c-white', 'title' => \yii::t('toolbar', 'Reset')]
+			);
+		}
 
 		return $button_reset;
 	}
