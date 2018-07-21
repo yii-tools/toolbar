@@ -202,12 +202,18 @@ class ToolBar extends Widget
 
 	private function renderPanelHeader()
 	{
+		$pageSize = \yii::$app->params['defaultPageSize'];
+
+		if (!is_null(\yii::$app->session->get('pageSize'))) {
+			$pageSize = \yii::$app->session->get('pageSize');
+		}
+
 		$panel_header = Html::begintag($this->_tag_container_panel_header, $this->_options_container_panel_header) .
 							Html::begintag($this->_tag_left_panel_header, $this->_options_left_panel_header) .
 								$this->_panel_header_title .
 							Html::endTag($this->_tag_left_panel_header) .
 							Html::begintag($this->_tag_rigth_panel_header, $this->_options_rigth_panel_header) .
-								'{summary}' . ' ' . 'Records per pages: ' . '<b>' . \yii::$app->session->get('pageSize') . '</b>' .
+								'{summary}' . ' ' . 'Records per pages: ' . '<b>' . $pageSize . '</b>' .
 							Html::endTag($this->_tag_rigth_panel_header) .
 						Html::endTag($this->_tag_container_panel_header);
 		return $panel_header;
