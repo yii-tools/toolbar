@@ -118,6 +118,11 @@ class ToolBar extends Widget
 	public $_button_create = true;
 
 	/**
+	 * @var boolean show/hidden panel button delete
+	 */
+	public $_button_delete = false;
+
+	/**
 	 * @var boolean show/hidden panel button filter
 	 */
 	public $_button_filter = true;
@@ -131,6 +136,16 @@ class ToolBar extends Widget
 	 * @var boolean show/hidden panel button reset
 	 */
 	public $_button_reset = true;
+
+	/**
+	 * @var boolean show/hidden panel button update
+	 */
+	public $_button_update = false;
+
+	/**
+	 * @var array ModelClass
+	 */
+	public $_model = [];
 
 	/**
 	 * Initializes the widget.
@@ -160,6 +175,28 @@ class ToolBar extends Widget
 		}
 
 		return $button_create;
+	}
+
+	private function renderButtonDelete()
+	{
+		$button_delete = '';
+
+		if ($this->_button_delete) {
+			$button_create = Html::a(
+				Html::tag('i', '', ['class' => 'fas fa-trash']),
+				['delete', 'id' => $this->_model->tableSchema->primaryKey],
+				[
+					'class' => 'btn btn-lg btn-danger c-white',
+					'title' => \yii::t('toolbar', 'Delete'),
+					'data' => [
+						'confirm' => \yii::t('toolbar', 'Are you sure you want to delete this item?'),
+						'method' => 'post',
+					],
+				]
+			);
+		}
+
+		return $button_delete;
 	}
 
 	private function renderButtonFilter()
@@ -201,7 +238,7 @@ class ToolBar extends Widget
 
 		return $button_pages;
 	}
-
+	
 	private function renderButtonReset()
 	{
 		$button_reset = '';
@@ -215,6 +252,21 @@ class ToolBar extends Widget
 		}
 
 		return $button_reset;
+	}
+
+	private function renderButtonUpdate($model)
+	{
+		$button_update = '';
+
+		if ($this->_button_update) {
+			$button_update = Html::a(
+				Html::tag('i', '', ['class' => 'fas fa-edit']),
+				['update', 'id' => $this->_model->tableSchema->primaryKey],
+				['class' => 'btn btn-lg btn-info mL-2 c-white', 'title' => \yii::t('toolbar', 'Update')]
+			);
+		}
+
+		return $button_update;
 	}
 
 	private function renderIcon()
