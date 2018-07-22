@@ -149,34 +149,6 @@ class ToolBar extends Widget
 		echo $this->renderPanelHeader() . $this->renderPanelBar();
 	}
 
-	private function renderToolBar()
-	{
-		$buttons_left = '';
-		$buttons_rigth = '';
-
-		ArrayHelper::setValue($this->_toolbar, 'pages.0', $this->renderButtonPages());
-
-		foreach ($this->_templates as $items => $buttons) {
-			foreach ($buttons as $item => $button) {
-				switch ($items) {
-					case 'left':
-						if (!empty(ArrayHelper::getValue($this->_toolbar, $button, ''))) {
-							$buttons_left .= implode(',', ArrayHelper::getValue($this->_toolbar, $button, ''));
-						}
-						break;
-					case 'rigth':
-						if (!empty(ArrayHelper::getValue($this->_toolbar, $button, ''))) {
-							$buttons_rigth .= implode(',', ArrayHelper::getValue($this->_toolbar, $button, ''));
-						}
-						break;
-				}
-			}
-		}
-
-		return Html::tag($this->_tag_left_panel_button, $buttons_left, $this->_options_left_panel_button) .
-			   Html::tag($this->_tag_rigth_panel_button, $buttons_rigth, $this->_options_rigth_panel_button);
-	}
-
 	private function renderButtonPages()
 	{
 		$button_pages = '';
@@ -243,5 +215,31 @@ class ToolBar extends Widget
 		}
 
 		return $this->_title_panel;
+	}
+
+	private function renderToolBar()
+	{
+		$buttons_left = '';
+		$buttons_rigth = '';
+
+		ArrayHelper::setValue($this->_toolbar, 'pages.0', $this->renderButtonPages());
+
+		foreach ($this->_templates as $items => $buttons) {
+			foreach ($buttons as $item => $button) {
+				if (!empty(ArrayHelper::getValue($this->_toolbar, $button, ''))) {
+					switch ($items) {
+						case 'left':
+							$buttons_left .= implode(',', ArrayHelper::getValue($this->_toolbar, $button, ''));
+							break;
+						case 'rigth':
+							$buttons_rigth .= implode(',', ArrayHelper::getValue($this->_toolbar, $button, ''));
+							break;
+					}
+				}
+			}
+		}
+
+		return Html::tag($this->_tag_left_panel_button, $buttons_left, $this->_options_left_panel_button) .
+			   Html::tag($this->_tag_rigth_panel_button, $buttons_rigth, $this->_options_rigth_panel_button);
 	}
 }
