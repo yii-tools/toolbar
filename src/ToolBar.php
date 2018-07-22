@@ -17,31 +17,12 @@ namespace cjtterabytesoft\widgets;
 
 use yii\base\Widget;
 use yii\bootstrap4\ButtonDropdown;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 class ToolBar extends Widget
 {
-	/**
-	 * @var string the tag to use to render panel title icon
-	 */
-	public $_tag_icon_panel = 'i';
-
-	/**
-	 * @var string the label to use to render panel title icon
-	 */
-	public $_label_icon_panel = '';
-
-	/**
-	 * @var array the options to use to render panel title icons
-	 */
-	public $_options_icon_panel = ['class' => 'fas fa-th'];
-
-	/**
-	 * @var string the label panel title
-	 */
-	public $_title_panel = '';
-
 	/**
 	 * @var string the tag to use to render panel title
 	 */
@@ -71,6 +52,36 @@ class ToolBar extends Widget
 	 * @var array the options to use to render panel title rigth
 	 */
 	public $_options_rigth_panel_header = ['class' => 'float-right ml-auto'];
+
+	/**
+	 * @var string use to panel header title
+	 */
+	public $_panel_header_title = '';
+
+	/**
+	 * @var string the tag to use to render panel title icon
+	 */
+	public $_tag_icon_panel = 'i';
+
+	/**
+	 * @var string the label to use to render panel title icon
+	 */
+	public $_label_icon_panel = '';
+
+	/**
+	 * @var array the options to use to render panel title icons
+	 */
+	public $_options_icon_panel = ['class' => 'fas fa-th'];
+
+	/**
+	 * @var string the label panel title
+	 */
+	public $_title_panel = '';
+
+	/**
+	 * @var bool Show/Hidden Summary Label
+	 */
+	public $_summary = false;
 
 	/**
 	 * @var string the tag to use to render container panel button
@@ -103,49 +114,25 @@ class ToolBar extends Widget
 	public $_options_rigth_panel_button = ['class' => 'float-right ml-auto'];
 
 	/**
-	 * @var bool whether the label should be HTML-encoded.
+	 * @var array Templates
 	 */
-	public $_encodeLabel = true;
+	public $_templates = [];
 
 	/**
-	 * @var string use to panel header title
+	 * @var array Buttons
 	 */
-	public $_panel_header_title = '';
-	
-	/**
-	 * @var boolean show/hidden panel button create
-	 */
-	public $_button_create = true;
+	public $_toolbar = [];
 
 	/**
-	 * @var boolean show/hidden panel button delete
-	 */
-	public $_button_delete = false;
-
-	/**
-	 * @var boolean show/hidden panel button filter
-	 */
-	public $_button_filter = true;
-
-	/**
-	 * @var boolean show/hidden panel button pages
+	 * @var bool show/hidden panel button pages
 	 */
 	public $_button_pages = true;
 
 	/**
-	 * @var boolean show/hidden panel button reset
+	 * @var bool whether the label should be HTML-encoded.
 	 */
-	public $_button_reset = true;
+	public $_encodeLabel = true;
 
-	/**
-	 * @var boolean show/hidden panel button update
-	 */
-	public $_button_update = false;
-
-	/**
-	 * @var array ModelClass
-	 */
-	public $_model = [];
 
 	/**
 	 * Initializes the widget.
@@ -162,56 +149,32 @@ class ToolBar extends Widget
 		echo $this->renderPanelHeader() . $this->renderPanelBar();
 	}
 
-	private function renderButtonCreate()
+	private function renderToolBar()
 	{
-		$button_create = '';
+		$buttons_left = '';
+		$buttons_rigth = '';
 
-		if ($this->_button_create) {
-			$button_create = Html::a(
-				Html::tag('i', '', ['class' => 'fas fa-plus']),
-				['create'],
-				['class' => 'btn btn-lg bgc-green-500 c-white', 'title' => \yii::t('toolbar', 'Add')]
-			);
+		ArrayHelper::setValue($this->_toolbar, 'pages.0', $this->renderButtonPages());
+
+		foreach ($this->_templates as $items => $buttons) {
+			foreach ($buttons as $item => $button) {
+				switch ($items) {
+					case 'left':
+						if (!empty(ArrayHelper::getValue($this->_toolbar, $button, ''))) {
+							$buttons_left .= implode(',', ArrayHelper::getValue($this->_toolbar, $button, ''));
+						}
+						break;
+					case 'rigth':
+						if (!empty(ArrayHelper::getValue($this->_toolbar, $button, ''))) {
+							$buttons_rigth .= implode(',', ArrayHelper::getValue($this->_toolbar, $button, ''));
+						}
+						break;
+				}
+			}
 		}
 
-		return $button_create;
-	}
-
-	private function renderButtonDelete()
-	{
-		$button_delete = '';
-
-		if ($this->_button_delete) {
-			$button_create = Html::a(
-				Html::tag('i', '', ['class' => 'fas fa-trash']),
-				['delete', 'id' => $this->_model->tableSchema->primaryKey],
-				[
-					'class' => 'btn btn-lg btn-danger c-white',
-					'title' => \yii::t('toolbar', 'Delete'),
-					'data' => [
-						'confirm' => \yii::t('toolbar', 'Are you sure you want to delete this item?'),
-						'method' => 'post',
-					],
-				]
-			);
-		}
-
-		return $button_delete;
-	}
-
-	private function renderButtonFilter()
-	{
-		$button_filter = '';
-
-		if ($this->_button_filter) {
-			$button_filter = Html::a(
-				Html::tag('i', '', ['class' => 'fas fa-filter']),
-				Url::current(),
-				['id' => 'filter-checked-btn', 'class' => 'simple btn btn-lg bgc-blue-500 mL-2 c-white', 'title' => \yii::t('toolbar', 'Filter')]
-			);
-		}
-
-		return $button_filter;
+		return Html::tag($this->_tag_left_panel_button, $buttons_left, $this->_options_left_panel_button) .
+			   Html::tag($this->_tag_rigth_panel_button, $buttons_rigth, $this->_options_rigth_panel_button);
 	}
 
 	private function renderButtonPages()
@@ -220,8 +183,8 @@ class ToolBar extends Widget
 
 		if ($this->_button_pages) {
 			$button_pages = ButtonDropdown::widget([
-				'buttonOptions' => ['class' => 'btn-sm btn-primary ai-c'],
-				'label' => \yii::t('toolbar', 'Page Size'),
+				'buttonOptions' => ['class' => 'btn-primary ai-c mL-2'],
+				'label' => '',
 				'options' => ['class' => 'float-right'],
 				'dropdown' => [
 					'items' => [
@@ -238,36 +201,6 @@ class ToolBar extends Widget
 
 		return $button_pages;
 	}
-	
-	private function renderButtonReset()
-	{
-		$button_reset = '';
-
-		if ($this->_button_reset) {
-			$button_reset = Html::a(
-				Html::tag('i', '', ['class' => 'fas fa-sync-alt']),
-				['index', [], []],
-				['class' => 'btn btn-lg bgc-indigo-500 mL-2 c-white', 'title' => \yii::t('toolbar', 'Reset')]
-			);
-		}
-
-		return $button_reset;
-	}
-
-	private function renderButtonUpdate($model)
-	{
-		$button_update = '';
-
-		if ($this->_button_update) {
-			$button_update = Html::a(
-				Html::tag('i', '', ['class' => 'fas fa-edit']),
-				['update', 'id' => $this->_model->tableSchema->primaryKey],
-				['class' => 'btn btn-lg btn-info mL-2 c-white', 'title' => \yii::t('toolbar', 'Update')]
-			);
-		}
-
-		return $button_update;
-	}
 
 	private function renderIcon()
 	{
@@ -277,16 +210,7 @@ class ToolBar extends Widget
 	private function renderPanelBar()
 	{
 		$panel_button = Html::begintag($this->_tag_container_panel_button, $this->_options_container_panel_button) .
-							Html::begintag($this->_tag_left_panel_button, $this->_options_left_panel_button) .
-								$this->renderButtonPages() .
-							Html::endTag($this->_tag_left_panel_button) .
-							Html::begintag($this->_tag_rigth_panel_button, $this->_options_rigth_panel_button) .
-								$this->renderButtonCreate() .
-								$this->renderButtonDelete() .
-								$this->renderButtonFilter() .
-								$this->renderButtonReset() .
-								$this->renderButtonUpdate() .
-							Html::endTag($this->_tag_rigth_panel_button) .
+							$this->renderToolBar() .
 						Html::endTag($this->_tag_container_panel_button);
 		return $panel_button;
 	}
@@ -295,16 +219,18 @@ class ToolBar extends Widget
 	{
 		$pageSize = \yii::$app->params['defaultPageSize'];
 
-		if (!is_null(\yii::$app->session->get('pageSize'))) {
+		if (\yii::$app->session->get('pageSize') !== null) {
 			$pageSize = \yii::$app->session->get('pageSize');
 		}
+
+		$summary = ($this->_summary) ? '{summary}' . ' ' . 'Records per pages: ' . '<b>' . $pageSize . '</b>' : ' ';
 
 		$panel_header = Html::begintag($this->_tag_container_panel_header, $this->_options_container_panel_header) .
 							Html::begintag($this->_tag_left_panel_header, $this->_options_left_panel_header) .
 								$this->_panel_header_title .
 							Html::endTag($this->_tag_left_panel_header) .
 							Html::begintag($this->_tag_rigth_panel_header, $this->_options_rigth_panel_header) .
-								'{summary}' . ' ' . 'Records per pages: ' . '<b>' . $pageSize . '</b>' .
+								$summary .
 							Html::endTag($this->_tag_rigth_panel_header) .
 						Html::endTag($this->_tag_container_panel_header);
 		return $panel_header;
