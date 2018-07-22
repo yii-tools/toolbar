@@ -126,13 +126,18 @@ class ToolBar extends Widget
 	/**
 	 * @var bool show/hidden panel button pages
 	 */
-	public $_button_pages = true;
+	public $_button_pages = false;
+
+	/**
+	 * @var bool show/hidden panel button export
+	 */
+	public $_button_export = false;
+
 
 	/**
 	 * @var bool whether the label should be HTML-encoded.
 	 */
-	public $_encodeLabel = true;
-
+	public $_encodeLabel = false;
 
 	/**
 	 * Initializes the widget.
@@ -149,6 +154,33 @@ class ToolBar extends Widget
 		echo $this->renderPanelHeader() . $this->renderPanelBar();
 	}
 
+	private function renderButtonExport()
+	{
+		$button_export = '';
+
+		if ($this->_button_export) {
+			$button_export = ButtonDropdown::widget([
+				'buttonOptions' => ['class' => 'btn-primary ai-c mL-2'],
+				'encodeLabel' => $this->_encodeLabel,
+				'label' => Html::tag('i', '', ['class' => 'fas fa-file-export']),
+				'options' => ['class' => 'float-right'],
+				'dropdown' => [
+					'encodeLabels' => $this->_encodeLabel,
+					'items' => [
+						Html::tag('h6', \yii::t('toolbar', 'Export Menu'), ['class' => 'dropdown-header']),
+						Html::tag('div', '', ['class' => 'dropdown-divider']),
+						['label' => Html::tag('i', '', ['class' => 'fas fa-file-code']) . ' ' . 'CSV', 'url' => Url::current()],
+						['label' => Html::tag('i', '', ['class' => 'fas fa-file-excel']) . ' ' . 'EXCEL', 'url' => Url::current()],
+						['label' => Html::tag('i', '', ['class' => 'fas fa-file-pdf']) . ' ' . 'PDF', 'url' => Url::current()],
+						['label' => Html::tag('i', '', ['class' => 'fas fa-file-word']) . ' ' . 'WORD', 'url' => Url::current()],
+					],
+				],
+			]);
+		}
+
+		return $button_export;
+	}
+
 	private function renderButtonPages()
 	{
 		$button_pages = '';
@@ -156,10 +188,13 @@ class ToolBar extends Widget
 		if ($this->_button_pages) {
 			$button_pages = ButtonDropdown::widget([
 				'buttonOptions' => ['class' => 'btn-primary ai-c mL-2'],
-				'label' => '',
+				'encodeLabel' => $this->_encodeLabel,
+				'label' => Html::tag('i', '', ['class' => 'fas fa-cog']),
 				'options' => ['class' => 'float-right'],
 				'dropdown' => [
 					'items' => [
+						Html::tag('h6', \yii::t('toolbar', 'Page Size Menu'), ['class' => 'dropdown-header']),
+						Html::tag('div', '', ['class' => 'dropdown-divider']),
 						['label' => '1', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '1'])],
 						['label' => '5', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '5'])],
 						['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '10'])],
@@ -223,6 +258,7 @@ class ToolBar extends Widget
 		$buttons_rigth = '';
 
 		ArrayHelper::setValue($this->_toolbar, 'pages.0', $this->renderButtonPages());
+		ArrayHelper::setValue($this->_toolbar, 'export.0', $this->renderButtonExport());
 
 		foreach ($this->_templates as $items => $buttons) {
 			foreach ($buttons as $item => $button) {
