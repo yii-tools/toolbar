@@ -232,6 +232,7 @@ class ToolBar extends Widget
 									'method' => 'post',
 									'params' => [
 										'model' => $this->_modelSearch,
+										'queryParams' => $this->_queryParams,
 									],
 								],
 							],
