@@ -15,6 +15,7 @@
 
 namespace cjtterabytesoft\widgets;
 
+use cjtterabytesoft\widgets\assets\ToolBarAsset;
 use yii\base\Widget;
 use yii\bootstrap4\ButtonDropdown;
 use yii\helpers\ArrayHelper;
@@ -133,11 +134,41 @@ class ToolBar extends Widget
 	 */
 	public $_button_export = false;
 
-
 	/**
 	 * @var bool whether the label should be HTML-encoded.
 	 */
 	public $_encodeLabel = false;
+
+	/**
+	 * @var bool whether the JS file should be registered.
+	 */
+	public $_registerJs = true;
+
+	/**
+	 * @var array Options Filter.
+	 */
+	public $_optionsFilter = [];
+
+	/**
+	 * @var string Message Filter Error.
+	 */
+	public $_messageFilter = '';
+
+	/**
+	 * @var array Model Search.
+	 */
+	public $_modelSearch = [];
+
+	/**
+	 * @var string Query Params.
+	 */
+	public $_queryParams = '';
+
+	/**
+	 * @var string Record All.
+	 */
+	public $_getall = '';
+
 
 	/**
 	 * Initializes the widget.
@@ -147,9 +178,33 @@ class ToolBar extends Widget
 	{
 		parent::init();
 
+		if (empty($this->_optionsFilter['message_filter'])) {
+			$this->_messageFilter = \yii::t('toolbar', 'Please select one or more items from the list.');
+		}
+
 		$iconpanel = $this->renderIcon();
 		$titlepanel = $this->renderTitlePanel();
+
 		$this->_panel_header_title = $iconpanel . '&nbsp' . '<b>' . $titlepanel . '</b>';
+	}
+
+	/**
+	 * Run the widget.
+	 * If you override this method, make sure you call the parent implementation first.
+	 */
+	public function run()
+	{
+		if (!empty($this->_optionsFilter['id_grid']) && !empty($this->_optionsFilter['id_button']) && !empty($this->_optionsFilter['route_filter'])) {
+			$id_grid = $this->_optionsFilter['id_grid'];
+			$id_button = $this->_optionsFilter['id_button'];
+			$route_filter = $this->_optionsFilter['route_filter'];
+			$this->view->registerJs("filterGridSelect('#$id_grid', '#$id_button', '$route_filter', '$this->_messageFilter');");
+		}
+
+		if ($this->_registerJs) {
+			$toolbar = new ToolBarAsset();
+			$toolbar->register($this->view);
+		}
 
 		echo $this->renderPanelHeader() . $this->renderPanelBar();
 	}
@@ -169,7 +224,18 @@ class ToolBar extends Widget
 					'items' => [
 						Html::tag('h6', \yii::t('toolbar', 'Export Menu'), ['class' => 'dropdown-header']),
 						Html::tag('div', '', ['class' => 'dropdown-divider']),
-						['label' => Html::tag('i', '', ['class' => 'fas fa-file-code']) . ' ' . 'CSV', 'url' => Url::current()],
+						[
+							'label' => Html::tag('i', '', ['class' => 'fas fa-file-code']) . ' ' . 'CSV',
+							'url' => Url::to(['export/csv']),
+							'linkOptions' => [
+								'data' => [
+									'method' => 'post',
+									'params' => [
+										'model' => $this->_modelSearch,
+									],
+								],
+							],
+						],
 						['label' => Html::tag('i', '', ['class' => 'fas fa-file-excel']) . ' ' . 'EXCEL', 'url' => Url::current()],
 						['label' => Html::tag('i', '', ['class' => 'fas fa-file-pdf']) . ' ' . 'PDF', 'url' => Url::current()],
 						['label' => Html::tag('i', '', ['class' => 'fas fa-file-word']) . ' ' . 'WORD', 'url' => Url::current()],
