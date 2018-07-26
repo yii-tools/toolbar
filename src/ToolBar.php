@@ -210,62 +210,27 @@ class ToolBar extends Widget
 						[
 							'label' => Html::tag('i', '', ['class' => 'fas fa-file']) . ' ' . 'Csv',
 							'url' => Url::current(['export']),
-							'linkOptions' => [
-								'data' => [
-									'method' => 'post',
-									'params' => [
-										'actionExport' => 'Csv',
-									],
-								],
-							],
+							'linkOptions' => ['data' => ['method' => 'post', 'params' => ['actionExport' => 'Csv']]],
 						],
 						[
 							'label' => Html::tag('i', '', ['class' => 'fas fa-file-excel']) . ' ' . 'Excel',
 							'url' => Url::current(['export']),
-							'linkOptions' => [
-								'data' => [
-									'method' => 'post',
-									'params' => [
-										'actionExport' => 'Excel',
-									],
-								],
-							],
+							'linkOptions' => ['data' => ['method' => 'post', 'params' => ['actionExport' => 'Excel']]],
 						],
 						[
 							'label' => Html::tag('i', '', ['class' => 'fas fa-file-code']) . ' ' . 'Html',
 							'url' => Url::current(['export']),
-							'linkOptions' => [
-								'data' => [
-									'method' => 'post',
-									'params' => [
-										'actionExport' => 'Html',
-									],
-								],
-							],
+							'linkOptions' => ['data' => ['method' => 'post', 'params' => ['actionExport' => 'Html']]],
 						],
 						[
 							'label' => Html::tag('i', '', ['class' => 'fas fa-file-pdf']) . ' ' . 'Pdf',
 							'url' => Url::current(['export']),
-							'linkOptions' => [
-								'data' => [
-									'method' => 'post',
-									'params' => [
-										'actionExport' => 'Pdf',
-									],
-								],
-							],
+							'linkOptions' => ['data' => ['method' => 'post', 'params' => ['actionExport' => 'Pdf']]],
 						],
 						[
 							'label' => Html::tag('i', '', ['class' => 'fas fa-file-word']) . ' ' . 'Word',
 							'url' => Url::current(['export']),
-							'linkOptions' => [
-								'data' => [
-									'method' => 'post',
-									'params' => [
-										'actionExport' => 'Word',
-									],
-								],
-							],
+							'linkOptions' => ['data' => ['method' => 'post', 'params' => ['actionExport' => 'Word']]],
 						],
 					],
 				],
