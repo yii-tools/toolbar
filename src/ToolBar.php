@@ -102,7 +102,7 @@ class ToolBar extends Widget
 	/**
 	 * @var array the options to use to render panel button left
 	 */
-	public $_options_left_panel_button = ['class' => 'float-left'];
+	public $_options_left_panel_button = ['class' => 'peers float-left'];
 
 	/**
 	 * @var string the tag to use to render panel button rigth
@@ -112,7 +112,7 @@ class ToolBar extends Widget
 	/**
 	 * @var array the options to use to render panel button rigth
 	 */
-	public $_options_rigth_panel_button = ['class' => 'float-right ml-auto'];
+	public $_options_rigth_panel_button = ['class' => 'peers float-right ml-auto'];
 
 	/**
 	 * @var array Templates
@@ -153,22 +153,6 @@ class ToolBar extends Widget
 	 * @var string Message Filter Error.
 	 */
 	public $_messageFilter = '';
-
-	/**
-	 * @var array Model Search.
-	 */
-	public $_modelSearch = [];
-
-	/**
-	 * @var string Query Params.
-	 */
-	public $_queryParams = '';
-
-	/**
-	 * @var string Record All.
-	 */
-	public $_getall = '';
-
 
 	/**
 	 * Initializes the widget.
@@ -212,34 +196,77 @@ class ToolBar extends Widget
 	private function renderButtonExport()
 	{
 		$button_export = '';
-
 		if ($this->_button_export) {
 			$button_export = ButtonDropdown::widget([
 				'buttonOptions' => ['class' => 'btn-primary ai-c mL-2'],
 				'encodeLabel' => $this->_encodeLabel,
 				'label' => Html::tag('i', '', ['class' => 'fas fa-file-export']),
-				'options' => ['class' => 'float-right'],
+				'options' => ['class' => 'dropleft'],
 				'dropdown' => [
 					'encodeLabels' => $this->_encodeLabel,
 					'items' => [
 						Html::tag('h6', \yii::t('toolbar', 'Export Menu'), ['class' => 'dropdown-header']),
 						Html::tag('div', '', ['class' => 'dropdown-divider']),
 						[
-							'label' => Html::tag('i', '', ['class' => 'fas fa-file-code']) . ' ' . 'CSV',
-							'url' => Url::to(['export/csv']),
+							'label' => Html::tag('i', '', ['class' => 'fas fa-file']) . ' ' . 'Csv',
+							'url' => Url::current(['export']),
 							'linkOptions' => [
 								'data' => [
 									'method' => 'post',
 									'params' => [
-										'model' => $this->_modelSearch,
-										'queryParams' => $this->_queryParams,
+										'actionExport' => 'Csv',
 									],
 								],
 							],
 						],
-						['label' => Html::tag('i', '', ['class' => 'fas fa-file-excel']) . ' ' . 'EXCEL', 'url' => Url::current()],
-						['label' => Html::tag('i', '', ['class' => 'fas fa-file-pdf']) . ' ' . 'PDF', 'url' => Url::current()],
-						['label' => Html::tag('i', '', ['class' => 'fas fa-file-word']) . ' ' . 'WORD', 'url' => Url::current()],
+						[
+							'label' => Html::tag('i', '', ['class' => 'fas fa-file-excel']) . ' ' . 'Excel',
+							'url' => Url::current(['export']),
+							'linkOptions' => [
+								'data' => [
+									'method' => 'post',
+									'params' => [
+										'actionExport' => 'Excel',
+									],
+								],
+							],
+						],
+						[
+							'label' => Html::tag('i', '', ['class' => 'fas fa-file-code']) . ' ' . 'Html',
+							'url' => Url::current(['export']),
+							'linkOptions' => [
+								'data' => [
+									'method' => 'post',
+									'params' => [
+										'actionExport' => 'Html',
+									],
+								],
+							],
+						],
+						[
+							'label' => Html::tag('i', '', ['class' => 'fas fa-file-pdf']) . ' ' . 'Pdf',
+							'url' => Url::current(['export']),
+							'linkOptions' => [
+								'data' => [
+									'method' => 'post',
+									'params' => [
+										'actionExport' => 'Pdf',
+									],
+								],
+							],
+						],
+						[
+							'label' => Html::tag('i', '', ['class' => 'fas fa-file-word']) . ' ' . 'Word',
+							'url' => Url::current(['export']),
+							'linkOptions' => [
+								'data' => [
+									'method' => 'post',
+									'params' => [
+										'actionExport' => 'Word',
+									],
+								],
+							],
+						],
 					],
 				],
 			]);
@@ -262,12 +289,12 @@ class ToolBar extends Widget
 					'items' => [
 						Html::tag('h6', \yii::t('toolbar', 'Page Size Menu'), ['class' => 'dropdown-header']),
 						Html::tag('div', '', ['class' => 'dropdown-divider']),
-						['label' => '1', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '1'])],
-						['label' => '5', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '5'])],
-						['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '10'])],
-						['label' => '20', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '20'])],
-						['label' => '25', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '25'])],
-						['label' => '50', 'url' => Url::current(['index', 'page' => 1, 'pageSize' => '50'])],
+						['label' => '1', 'url' => Url::current(['index', 'page' => 1, 'per-page' => '1'])],
+						['label' => '5', 'url' => Url::current(['index', 'page' => 1, 'per-page' => '5'])],
+						['label' => '10', 'url' => Url::current(['index', 'page' => 1, 'per-page' => '10'])],
+						['label' => '20', 'url' => Url::current(['index', 'page' => 1, 'per-page' => '20'])],
+						['label' => '25', 'url' => Url::current(['index', 'page' => 1, 'per-page' => '25'])],
+						['label' => '50', 'url' => Url::current(['index', 'page' => 1, 'per-page' => '50'])],
 					],
 				],
 			]);
@@ -293,8 +320,8 @@ class ToolBar extends Widget
 	{
 		$pageSize = \yii::$app->params['defaultPageSize'];
 
-		if (\yii::$app->session->get('pageSize') !== null) {
-			$pageSize = \yii::$app->session->get('pageSize');
+		if (\yii::$app->session->get('per-page') !== null) {
+			$pageSize = \yii::$app->session->get('per-page');
 		}
 
 		$summary = ($this->_summary) ? '{summary}' . ' ' . 'Records per pages: ' . '<b>' . $pageSize . '</b>' : ' ';
