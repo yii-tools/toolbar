@@ -130,10 +130,6 @@ class Export extends Widget
 		$letter = 65;
 		foreach ($fields as $one) {
 			$objPHPExcel->getActiveSheet()->getColumnDimension(chr($letter))->setAutoSize(true);
-			$letter++;
-		}
-		$letter = 65;
-		foreach ($fields as $one) {
 			$objPHPExcel->getActiveSheet()->setCellValue(chr($letter) . '1', $this->_searchModel->getAttributeLabel($one));
 			$objPHPExcel->getActiveSheet()->getStyle(chr($letter) . '1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 			$letter++;
@@ -166,13 +162,7 @@ class Export extends Widget
 		$phpWord = new PhpWord();
 		$section = $phpWord->addSection();
 		$section->addTitle($this->_title);
-		$table = $section->addTable(
-			[
-				'name' => 'Tahoma',
-				'size' => 10,
-				'align' => 'center',
-			]
-		);
+		$table = $section->addTable(['name' => 'Tahoma', 'size' => 10, 'align' => 'center',]);
 		$table->addRow(300, ['exactHeight' => true]);
 		foreach ($fields as $one) {
 			$table->addCell(1500, [
@@ -302,6 +292,9 @@ class Export extends Widget
 		$objWriter->save('php://output');
 	}
 
+	/**
+	 * @return array Fields List.
+	 */
 	private function getFieldsKeys($fieldsSended)
 	{
 		$fields = [];
