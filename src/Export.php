@@ -165,25 +165,18 @@ class Export extends Widget
 		$table = $section->addTable(['name' => 'Tahoma', 'size' => 10, 'align' => 'center',]);
 		$table->addRow(300, ['exactHeight' => true]);
 		foreach ($fields as $one) {
-			$table->addCell(1500, [
-				'bgColor' => 'eeeeee',
-				'valign' => 'center',
-				'borderTopSize' => 5,
-				'borderRightSize' => 5,
-				'borderBottomSize' => 5,
-				'borderLeftSize' => 5,
-			])->addText($this->_searchModel->getAttributeLabel($one), ['bold' => true, 'size' => 10], ['align' => 'center']);
+			$table->addCell(
+				1500,
+				['bgColor' => 'eeeeee', 'borderTopSize' => 5, 'borderRightSize' => 5, 'borderBottomSize' => 5,'borderLeftSize' => 5, 'valign' => 'center']
+			)->addText($this->_searchModel->getAttributeLabel($one), ['bold' => true, 'size' => 10], ['align' => 'center']);
 		}
 		foreach ($this->_dataProvider->getModels() as $model) {
 			$table->addRow(300, ['exactHeight' => true]);
 			foreach ($this->_searchModel->exportFields() as $one) {
-				$table->addCell(1500, [
-					'valign' => 'center',
-					'borderTopSize' => 1,
-					'borderRightSize' => 1,
-					'borderBottomSize' => 1,
-					'borderLeftSize' => 1,
-				])->addText('<p style="margin-left: 10px;">' . (is_string($one)) ? $model[$one] : $one($model) . '</p>', ['bold' => false, 'size' => 10], ['align' => 'right']);
+				$table->addCell(
+					1500,
+					['borderTopSize' => 1, 'borderRightSize' => 1, 'borderBottomSize' => 1, 'borderLeftSize' => 1, 'valign' => 'center']
+				)->addText('<p style="margin-left: 10px;">' . (is_string($one)) ? $model[$one] : $one($model) . '</p>', ['bold' => false, 'size' => 10], ['align' => 'right']);
 			}
 		}
 		header('Content-Type: application/html');
@@ -249,39 +242,25 @@ class Export extends Widget
 		$sectionStyle->setMarginRight(300);
 		$sectionStyle->setMarginBottom(300);
 		$sectionStyle->setMarginLeft(300);
-		$phpWord->addTitleStyle(1, ['name' => 'HelveticaNeueLT Std Med', 'size' => 16], ['align' => 'center']); //h
+		$phpWord->addTitleStyle(1, ['name' => 'HelveticaNeueLT Std Med', 'size' => 16], ['align' => 'center']);
 		$section->addTitle($this->_title);
 		$table = $section->addTable(
-			[
-				'name' => 'Tahoma',
-				'align' => 'center',
-				'cellMarginTop' => 30,
-				'cellMarginRight' => 30,
-				'cellMarginBottom' => 30,
-				'cellMarginLeft' => 30,
-			]
+			['name' => 'Tahoma', 'align' => 'center', 'cellMarginTop' => 30, 'cellMarginRight' => 30, 'cellMarginBottom' => 30,	'cellMarginLeft' => 30]
 		);
 		$table->addRow(300, ['exactHeight' => true]);
 		foreach ($fields as $one) {
-			$table->addCell(1500, [
-				'bgColor' => 'eeeeee',
-				'valign' => 'center',
-				'borderTopSize' => 5,
-				'borderRightSize' => 5,
-				'borderBottomSize' => 5,
-				'borderLeftSize' => 5,
-			])->addText($this->_searchModel->getAttributeLabel($one), ['bold' => true, 'size' => 10], ['align' => 'center']);
+			$table->addCell(
+				1500,
+				['bgColor' => 'eeeeee', 'borderTopSize' => 5, 'borderRightSize' => 5, 'borderBottomSize' => 5,'borderLeftSize' => 5, 'valign' => 'center']
+			)->addText($this->_searchModel->getAttributeLabel($one), ['bold' => true, 'size' => 10], ['align' => 'center']);
 		}
 		foreach ($this->_dataProvider->getModels() as $model) {
 			$table->addRow(300, ['exactHeight' => true]);
 			foreach ($this->_searchModel->exportFields() as $one) {
-				$table->addCell(1500, [
-					'valign' => 'center',
-					'borderTopSize' => 1,
-					'borderRightSize' => 1,
-					'borderBottomSize' => 1,
-					'borderLeftSize' => 1,
-				])->addText(is_string($one) ? $model[$one] : $one($model), ['bold' => false, 'size' => 10], ['align' => 'left']);
+				$table->addCell(
+					1500,
+					['borderTopSize' => 1, 'borderRightSize' => 1, 'borderBottomSize' => 1, 'borderLeftSize' => 1, 'valign' => 'center']
+				)->addText(is_string($one) ? $model[$one] : $one($model), ['bold' => false, 'size' => 10], ['align' => 'left']);
 			}
 		}
 		header('Content-Type: application/vnd.ms-word');
