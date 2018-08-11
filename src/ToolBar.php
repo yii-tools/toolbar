@@ -13,9 +13,9 @@
  *         @yii: 3.0
  **/
 
-namespace cjtterabytesoft\widgets;
+namespace cjtterabytesoft\toolbar;
 
-use cjtterabytesoft\widgets\assets\ToolBarAsset;
+use cjtterabytesoft\toolbar\assets\ToolBarAsset;
 use yii\base\Widget;
 use yii\bootstrap4\ButtonDropdown;
 use yii\helpers\ArrayHelper;

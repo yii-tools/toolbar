@@ -13,13 +13,13 @@
  *         @yii: 3.0
  **/
 
-namespace cjtterabytesoft\widgets\assets;
+namespace cjtterabytesoft\toolbar\assets;
 
 use yii\web\AssetBundle;
 
 class ToolBarAsset extends AssetBundle
 {
-	public $sourcePath = '@cjtterabytesoft/widgets/assets/';
+	public $sourcePath = '@cjtterabytesoft/toolbar/assets/';
 
 	public $js = [
 		'js/toolbar.js',

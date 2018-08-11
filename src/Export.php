@@ -13,7 +13,7 @@
  *         @yii: 3.0
  **/
 
-namespace cjtterabytesoft\widgets;
+namespace cjtterabytesoft\toolbar;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;

@@ -38,10 +38,10 @@
         }
     ],
     "autoload": {
-        "psr-4": {"cjtterabytesoft\\widgets\\": "src"}
+        "psr-4": {"cjtterabytesoft\\toolbar\\": "src"}
     },
     "autoload-dev": {
-        "psr-4": {"cjtterabytesoft\\widgets\\tests\\": "tests"}
+        "psr-4": {"cjtterabytesoft\\toolbar\\tests\\": "tests"}
     },
     "config": {
         "process-timeout": 1800
